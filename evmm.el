@@ -8,7 +8,6 @@
   (ram 1024)
   (cpu 1))
 
-
 (defun start-vm (vm)
   (interactive "vVM? ")
   (when (vm-p vm)
@@ -24,13 +23,13 @@
 	   "-m " (number-to-string (vm-ram vm)) " "
 	   "-smp " (number-to-string (vm-cpu vm)))))
 
-
 ;;; Example to work with
 
 (defvar a
   (make-vm :name "Windows 10 dev"
 	   :description "Dev environment"
-	   :disk (concat (getenv "HOME") "/vms/windev.qcow")))
+	   :disk (concat (getenv "HOME") "/vms/windev.qcow")
+	   :ram 8192))
 
 (start-kvm a)
 

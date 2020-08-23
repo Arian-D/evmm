@@ -1,0 +1,14 @@
+
+#+TITLE: Emacs Virtual Machine Manager
+A simple and minimalistic virtual machine manager for GNU Emacs.
+* Installation/Usage
+copy or symlink ~evmm.el~ to your ~.emacs.d~ directory. Then, add the
+following somewhere in your config files
+* Todo
+** Short term [0/2]
+- [ ] Add a list of global vms
+- [ ] Add a custom for ad-hoc vm management
+** Long term [0/3]
+- [ ] Virtualbox support
+- [ ] Import and export OVA/OVF
+- [ ] A UI
