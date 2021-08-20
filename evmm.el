@@ -8,13 +8,8 @@
   (ram 1024)
   (cpu 1))
 
-(defun start-vm (vm)
-  (interactive "vVM? ")
-  (when (vm-p vm)
-    (cond ((eq (vm-backend vm) 'kvm) (start-kvm vm))
-	  (t (error "Sadly, the backend is not provided.")))))
-
-(defun start-kvm (vm)
+(defun evmm-start-vm (vm)
+  "Start the given vm using qemu-kvm"
   (async-shell-command
    (concat "qemu-kvm "
 	   (if (vm-name vm) (format "-name '%s' " (vm-name vm)))
@@ -23,14 +18,22 @@
 	   "-m " (number-to-string (vm-ram vm)) " "
 	   "-smp " (number-to-string (vm-cpu vm)))))
 
-;;; Example to work with
+(defun evmm-create-qemu-disk (vm size format)
+  "Create a new disk image using qemu-img"
+  (if (file-exists-p (vm-disk vm))
+      (error "The disk already exists")
+    (concat "qemu-img create "
+	    (if format (concat "-f " format))
+	    " " (vm-disk vm)
+	    (number-to-string size))))	; TODO: Change to MB or signifier
 
-(defvar a
-  (make-vm :name "Windows 10 dev"
-	   :description "Dev environment"
-	   :disk (concat (getenv "HOME") "/vms/windev.qcow")
-	   :ram 8192))
-
-(start-kvm a)
+(defun evmm--test ()
+  "Example to work with"
+  (defvar windowyyyy
+    (make-vm :name "Windows 10 dev"
+	     :description "Dev environment"
+	     :disk (concat (getenv "HOME") "/vms/windev.qcow")
+	     :ram 8192))
+  (start-kvm windowyyyy))
 
 (provide 'evmm)
