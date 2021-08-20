@@ -8,8 +8,13 @@
   (ram 1024)
   (cpu 1))
 
+(defcustom evmm-vms ()
+  "List of virtual machines."
+  :type '(repeat vm))
+
 (defun evmm-start-vm (vm)
-  "Start the given vm using qemu-kvm"
+  "Start the given vm using qemu-kvm. Other backends will be added
+later (VBox, VMware, and libvirtd)"
   (async-shell-command
    (concat "qemu-kvm "
 	   (if (vm-name vm) (format "-name '%s' " (vm-name vm)))
