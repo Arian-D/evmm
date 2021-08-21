@@ -15,6 +15,13 @@
 (defun evmm-start-vm (vm)
   "Start the given vm using qemu-kvm. Other backends will be added
 later (VBox, VMware, and libvirtd)"
+  (interactive
+   (list
+    (let ((vm-name (completing-read "> " (mapcar 'vm-name evmm-vms))))
+      (car (seq-filter
+	    (lambda (the-vm)
+	      (string-equal (vm-name the-vm) vm-name))
+	    evmm-vms)))))
   (async-shell-command
    (concat "qemu-system-x86_64 "
 	   (if (vm-backend vm) " -enable-kvm ")
@@ -53,7 +60,7 @@ later (VBox, VMware, and libvirtd)"
     ;; Create the disk if it doesn't already exist
     (unless (file-exists-p disk)
       (let ((size
-		 (read-number "How big should the disk be (in G)? " 20)))
+	     (read-number "How big should the disk be (in G)? " 20)))
 	(evmm-create-qemu-disk created-vm size "qcow2")))  ; TODO: Detect the format based on file extension
     ;; Add it to our list of VMs without the `img'
     (add-to-list 'evmm-vms
