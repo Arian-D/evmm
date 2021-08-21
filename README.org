@@ -1,17 +1,42 @@
 
 #+TITLE: Emacs Virtual Machine Manager
 A simple and minimalistic virtual machine manager for GNU Emacs.
-* Installation/Usage
-copy or symlink ~evmm.el~ to your ~.emacs.d~ directory. Then, add the
-following somewhere in your config files
+* Installation
+** Straight
+If you have [[https://github.com/raxod502/straight.el][Straight]] you can add the following to your =init.el=.
+#+begin_src emacs-lisp
+(use-package evmm
+  :straight (evmm :type git :host github :repo "arian-d/evmm"))
+#+end_src
+** Manual
+Copy or symlink ~evmm.el~ to your ~.emacs.d~ directory. Then, ~require~ it.
+** Melpa
+Not any time soon
+* Usage
+** Declarative
+You can add
+#+begin_src emacs-lisp
+(add-to-list 'evmm-vms
+	     (make-vm :name "Windows VM"
+		      :disk "/path/to/vm.img"
+		      :ram 4096
+		      :cpu 4))
+#+end_src
+to you =init.el=, and after evaluating it, you can call ~M-x evmm-start-vm~
+to start the virtual machine. 
 * Todo
-** Short term [1/5]
+** Short term [3/6]
 - [X] Add a list of global vms
-- [ ] Add a custom for ad-hoc vm management
+- [X] Add a custom for ad-hoc vm management
 - [ ] Add labels to VMs
 - [ ] Add clear =straight.el= installation instructions
-- [ ] Add a function to interactively install an OS
-** Long term [0/3]
+- [X] Add a function to interactively install an OS
+- [ ] Check for Disk's existence, permission, and ownership prior to
+  starting it
+  
+** Long term [0/5]
 - [ ] Virtualbox support
 - [ ] Import and export OVA/OVF
 - [ ] A UI
+- [ ] Add the ability to install an OS using a url rather than a local image
+- [ ] Tests
